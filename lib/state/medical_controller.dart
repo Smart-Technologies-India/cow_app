@@ -63,7 +63,7 @@ class MedicalController extends ChangeNotifier {
 
     final response = await apiCall(
       query:
-          "mutation CompleteMedicalRequest(\$completeMedicalInput:CompleteMedicalInput!){completeMedicalRequest (completeMedicalInput:\$completeMedicalInput){ id }} ",
+          "mutation CompleteMedicalRequest(\$completeMedicalInput:CompleteMedicalInput!){completeMedicalRequest (completeMedicalInput:\$completeMedicalInput){ id }}",
       variables: {
         "completeMedicalInput": {
           "id": data["id"],
@@ -75,6 +75,15 @@ class MedicalController extends ChangeNotifier {
       },
       headers: {"content-type": "*/*"},
     );
+    Logger().d({
+        "completeMedicalInput": {
+          "id": data["id"],
+          "follow_up_date": data["follow_up_date"],
+          "follow_up_treatment": data["follow_up_treatment"],
+          "treatment_provided": data["treatment_provided"],
+          "user_id": userid,
+        }
+      });
     if (!response.status) {
       if (!context.mounted) return;
       erroralert(context, "Error", response.message);
